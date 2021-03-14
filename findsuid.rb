@@ -1,3 +1,6 @@
+#!/usr/bin/env ruby
+#
+###################
 require 'find'
 
 def finds(path)
