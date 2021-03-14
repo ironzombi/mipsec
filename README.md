@@ -1,6 +1,6 @@
 # mipsec
 <h3>repo for sec code related stuff</h3>
-<pre>Tools
+<pre>Tools from black hat ruby
 ------------
 hexdump
 suid file search
