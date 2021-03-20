@@ -10,7 +10,8 @@ import (
 )
 
 /*
- * script to download given url
+ * script to download given url's
+ * need to: fix local, borks on index.htm
  */
 func fetch(url string) (filename string, n int64, err error) {
 	resp, err := http.Get(url)
@@ -18,16 +19,14 @@ func fetch(url string) (filename string, n int64, err error) {
 		return "", 0, err
 	}
 	defer resp.Body.Close()
-	fmt.Printf("\nFetching %s ", resp.Request.URL)
+	fmt.Printf("\nFetching %s \n", resp.Request.URL)
 	local := path.Base(resp.Request.URL.Path)
 	if local == "/" {
 		prefix := strings.Trim(url, "https://")
 		local = fmt.Sprintf("%s.index.html", prefix)
-		fmt.Println(local)
 	}
 	f, err := os.Create(local)
 	if err != nil {
-		fmt.Println("we failed to create local!!")
 		return "", 0, err
 	}
 	n, err = io.Copy(f, resp.Body)
@@ -41,7 +40,7 @@ func main() {
 	for _, url := range os.Args[1:] {
 		file, size, err := fetch(url)
 		if err != nil {
-			fmt.Printf("\nget %s failed", url)
+			fmt.Printf("\nget %s failed\n", url)
 		}
 		fmt.Printf("\n[+] %s written ", file)
 		fmt.Printf("\n[+] %d bytes total ", size)
