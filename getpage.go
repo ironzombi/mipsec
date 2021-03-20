@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 )
 
 /*
@@ -20,10 +21,13 @@ func fetch(url string) (filename string, n int64, err error) {
 	fmt.Printf("\nFetching %s ", resp.Request.URL)
 	local := path.Base(resp.Request.URL.Path)
 	if local == "/" {
-		local = "index.html"
+		prefix := strings.Trim(url, "https://")
+		local = fmt.Sprintf("%s.index.html", prefix)
+		fmt.Println(local)
 	}
 	f, err := os.Create(local)
 	if err != nil {
+		fmt.Println("we failed to create local!!")
 		return "", 0, err
 	}
 	n, err = io.Copy(f, resp.Body)
@@ -37,8 +41,7 @@ func main() {
 	for _, url := range os.Args[1:] {
 		file, size, err := fetch(url)
 		if err != nil {
-			fmt.Println("get page failed")
-			os.Exit(1)
+			fmt.Printf("\nget %s failed", url)
 		}
 		fmt.Printf("\n[+] %s written ", file)
 		fmt.Printf("\n[+] %d bytes total ", size)
