@@ -8,6 +8,7 @@ import (
 	"path"
 	"strings"
 )
+
 /*
  * script to download given url's
  * need to: fix local, borks on index.htm

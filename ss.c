@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
-
+//small size but can run a remote command..
 int main()
 {
 
