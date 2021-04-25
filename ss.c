@@ -12,9 +12,10 @@ int main()
   int port = 22;
   int rc;
   char *password;
-  
+  char command[8];
+
   int verify_knownhost(ssh_session session);
-  int show_remote_processes(ssh_session session);
+  int show_remote_processes(ssh_session session, char *command);
 
   my_ssh_session = ssh_new();
   if (my_ssh_session == NULL)
@@ -48,8 +49,10 @@ int main()
 	ssh_free(my_ssh_session);
 	exit(-1);
   }
-
-  show_remote_processes(my_ssh_session);
+  
+  printf("COmmand: ");
+  scanf("%c", command);
+  show_remote_processes(my_ssh_session, command);
 
   ssh_disconnect(my_ssh_session);
   ssh_free(my_ssh_session);
@@ -142,7 +145,7 @@ int verify_knownhost(ssh_session session)
     return 0;
 }
 
-int show_remote_processes(ssh_session session)
+int show_remote_processes(ssh_session session, char *remote_command)
 {
   ssh_channel channel;
   int rc;
@@ -159,8 +162,7 @@ int show_remote_processes(ssh_session session)
     ssh_channel_free(channel);
     return rc;
   }
- 
-  rc = ssh_channel_request_exec(channel, "ps aux");
+  rc = ssh_channel_request_exec(channel, remote_command);
   if (rc != SSH_OK)
   {
     ssh_channel_close(channel);
